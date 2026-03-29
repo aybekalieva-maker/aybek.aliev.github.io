@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подбор водонагревателя</title>
+
+<style>
+body {
+  font-family: Inter, Arial;
+  margin: 0;
+  background: #F5F7FA;
+  color: #111;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+button {
+  background: #2563EB;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: white;
+  color: #111;
+  border: 1px solid #ddd;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.hidden {
+  display: none;
+}
+
+.option {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #eef2ff;
+}
+
+.result-badge {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 24px;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Главный экран -->
+<div id="home">
+  <h1>Подберём водонагреватель за 60 секунд</h1>
+  <p>Без переплаты. Покажем плюсы и минусы каждой модели</p>
+
+  <button onclick="startQuiz()">Подобрать</button>
+<a href="https://wa.me/996553019081?text=Здравствуйте,%20хочу%20подобрать%20водонагреватель" target="_blank">
+  <button class="secondary">Написать в WhatsApp</button>
+</a>
+
+  <div class="card">
+    ✔ Без фейковых скидок<br>
+    ✔ Честные минусы<br>
+    ✔ Быстрый выбор
+  </div>
+</div>
+
+<!-- Квиз -->
+<div id="quiz" class="hidden">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+</div>
+
+<!-- Результат -->
+<div id="result" class="hidden">
+  <h2>Мы подобрали 3 варианта</h2>
+
+  <div class="card">
+    <div class="result-badge">💰 Бюджет</div>
+    <p>Подходит: 1–2 человека</p>
+    <p>Не подходит: долгий нагрев</p>
+    <a href="https://wa.me/996553019081" target="_blank">
+<button onclick="order('Бюджет 50L')">Купить</button>
+</a>
+  </div>
+
+  <div class="card">
+    <div class="result-badge">⚖️ Оптимум</div>
+    <p>Подходит: 3–4 человека</p>
+    <p>Не подходит: выше цена</p>
+        <a href="https://wa.me/996553019081" target="_blank">
+<button onclick="order('Оптимум 80L')">Купить</button>
+</a>
+  </div>
+
+  <div class="card">
+    <div class="result-badge">💎 Комфорт</div>
+    <p>Подходит: семья</p>
+    <p>Не подходит: дорого</p>
+        <a href="https://wa.me/996553019081" target="_blank">
+<button onclick="order('Комфорт 100L')">Купить</button>
+</a>
+  </div>
+</div>
+
+</div>
+
+<script>
+let step = 0;
+
+const questions = [
+  {
+    q: "Сколько человек?",
+    a: ["1-2", "3-4", "5+"]
+  },
+  {
+    q: "Где использовать?",
+    a: ["Кухня", "Ванна", "Оба"]
+  },
+  {
+    q: "Сколько места?",
+    a: ["Мало", "Средне", "Много"]
+  }
+];
+
+function startQuiz() {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
+}
+
+function showQuestion() {
+  if (step >= questions.length) {
+    showResult();
+    return;
+  }
+
+  document.getElementById("question").innerText = questions[step].q;
+
+  let answersHTML = "";
+  questions[step].a.forEach(a => {
+    answersHTML += `<div class="option" onclick="nextStep()">${a}</div>`;
+  });
+
+  document.getElementById("answers").innerHTML = answersHTML;
+}
+
+function nextStep() {
+  step++;
+  showQuestion();
+}
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+}
+
+function order(model) {
+  let phone = "996553019081"; // твой номер
+
+  let text = "Здравствуйте, хочу модель: " + model;
+
+  let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(text);
+
+  window.open(url, "_blank");
+}
+
+</script>
+
+<a href="https://wa.me/996553019081" class="whatsapp" target="_blank">💬</a>
+</body>
+</html>
